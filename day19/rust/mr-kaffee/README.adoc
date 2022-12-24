@@ -1,0 +1,58 @@
+== Day 19: Not Enough Minerals ==
+
+https://rust-lang.org[Rust] solution to https://adventofcode.com/2022/day/19[AoC|2022|19].
+
+I was basically poking in the fog and brute forcing the solution. 
+
+After I had a working solution, I looked for help in the https://www.reddit.com/r/adventofcode/comments/zpihwi/2022_day_19_solutions/[reddit solution megathread] and re-worked my solution.
+
+There are three main elements that lead to acceptable solution time:
+
+1. Do not simulate every minute but rather decide which robot to build next and simulate as many minutes as required to build that robot at once 
+2. Understand that only one robot can be made per minute, which implies that there is no point in having more Ore, Clay or Obsidian collecting robots than the maximum Ore, Clay or Obsidian required to produce a single robot of any kind
+3. Do a depth first search to have terminal states quickly and discard all branches for which an upper bound can be calculated which is below the current optimum (this is kind of an A* idea)
+
+=== Input ===
+
+I parse the blueprints into a vec containing the amount of Ore, Clay and Obsidian required to build any of the Ore collecting, Clay collecting, Obsidian collecting or Geode opening robots. This results in many 0's but makes the implementation of the search algorithm much easier.
+
+[source,rust,numbered]
+----
+include::src/lib.rs[tags=input]
+----
+
+=== Star 1 ===
+
+My depth-first search implementation:
+
+[source,rust,numbered]
+----
+include::src/lib.rs[tags=dfs]
+----
+
+This is used for part 1 as
+
+[source,rust,numbered]
+----
+include::src/lib.rs[tags=star_1]
+----
+
+=== Star 2 ===
+
+The same solution works for part 2:
+
+[source,rust,numbered]
+----
+include::src/lib.rs[tags=star_2]
+----
+
+=== Tests ===
+
+[source,rust,numbered]
+----
+include::src/lib.rs[tags=tests]
+----
+
+=== Today I learned ===
+
+Brute force sometimes works but it is no fun, and there is a lot to learn on how to solve these kind of problems ...
